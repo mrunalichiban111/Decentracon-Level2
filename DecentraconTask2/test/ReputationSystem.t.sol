@@ -5,6 +5,7 @@ import "forge-std/Test.sol";
 import "../src/ReputationSystem.sol";
 
 contract ReputationSystemTest is Test {
+
     ReputationSystem contractInstance;
 
     address user1 = address(0x1);
@@ -63,7 +64,7 @@ contract ReputationSystemTest is Test {
         contractInstance.submitReview(user2, 5, "1");
 
         vm.expectRevert();
-        contractInstance.bulkReview(user2, 5);
+        contractInstance.submitReview(user2, 5, "2");
 
         vm.stopPrank();
     }
