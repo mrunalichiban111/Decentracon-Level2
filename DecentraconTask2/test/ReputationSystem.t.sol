@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 import "../src/ReputationSystem.sol";
 
 contract ReputationSystemTest is Test {
-
     ReputationSystem contractInstance;
 
     address user1 = address(0x1);
@@ -98,6 +97,37 @@ contract ReputationSystemTest is Test {
         assertEq(total, 0);
         assertEq(count, 0);
     }
+    function testDeletePreservesCorrectData() public {
+        contractInstance.recordInteraction(user1, user2);
+        contractInstance.recordInteraction(user3, user2);
+
+        vm.prank(user1);
+        contractInstance.submitReview(user2, 5, "A");
+
+        vm.prank(user3);
+        contractInstance.submitReview(user2, 3, "B");
+
+        vm.prank(user1);
+        contractInstance.deleteReview(user2, 0);
+
+        ReputationSystem.Review memory r = contractInstance.getReview(user2, 0);
+
+        assertEq(r.reviewer, user3);
+        assertEq(r.rating, 3);
+    }
+    function testAverageAfterDelete() public {
+        contractInstance.recordInteraction(user1, user2);
+
+        vm.prank(user1);
+        contractInstance.submitReview(user2, 5, "test");
+
+        vm.prank(user1);
+        contractInstance.deleteReview(user2, 0);
+
+        uint avg = contractInstance.getAverageRating(user2);
+        assertEq(avg, 0);
+    }
+    
 
     // =========================================================
     // 4. REPUTATION CALCULATION IMPROVEMENTS
