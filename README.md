@@ -1,4 +1,4 @@
-# Decentralized Reputation System — Decentracon Challenge two
+# Decentralized Reputation System — Decentracon Challenge Three
 
 ## Overview
 
