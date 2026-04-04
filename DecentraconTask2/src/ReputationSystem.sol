@@ -21,10 +21,10 @@ contract ReputationSystem {
     mapping(address => User) public users;
     mapping(address => Review[]) public reviews;
 
-    // Placeholder storage for interaction tracking.
+    
     mapping(address => mapping(address => bool)) public hasInteracted;
 
-    // Provided for testing and transparency.
+    
     event ReviewSubmitted(
         address indexed reviewer,
         address indexed reviewee,
@@ -40,17 +40,14 @@ contract ReputationSystem {
 
     event InteractionRecorded(address indexed user1, address indexed user2);
 
-    // Students are expected to implement proper interaction logic.
+    
     function recordInteraction(address user1, address user2) external {
         user1;
         user2;
-        // TODO: mark valid interaction in storage
+        
     }
 
-    // - no self-review check
-    // - no rating bounds check
-    // - no duplicate check
-    // - no interaction validation
+    
     function submitReview(
         address _to,
         uint8 _rating,
@@ -71,15 +68,12 @@ contract ReputationSystem {
         emit ReviewSubmitted(msg.sender, _to, _rating, _comment);
     }
 
-    // No zero-review guard.
+    
     function getAverageRating(address _user) public view returns (uint256) {
         return users[_user].totalRating / users[_user].reviewCount;
     }
 
-    // No interaction tracking.
-    // - anyone can delete
-    // - does not update totalRating / reviewCount
-    // - uses delete instead of safe removal
+    
     function deleteReview(address _user, uint256 index) public {
         delete reviews[_user][index];
         emit ReviewDeleted(msg.sender, _user, index);
@@ -92,7 +86,7 @@ contract ReputationSystem {
         }
     }
 
-    // Helper functions provided so tests can inspect state.
+    
     function getReviewCount(address _user) public view returns (uint256) {
         return reviews[_user].length;
     }
